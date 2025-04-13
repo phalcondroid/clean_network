@@ -1,7 +1,7 @@
 /// Support for doing something awesome.
 ///
 /// More dartdocs go here.
-// library;
+library clean_network;
 
 export 'src/core/adapters/http_adapter.dart';
 export 'src/core/adapters/local_storage_adapter.dart';
