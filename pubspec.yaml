@@ -1,0 +1,35 @@
+name: clean_network
+description: A starting point for Dart libraries or applications.
+version: 1.0.0
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: ^3.7.0
+
+publish_to: none
+
+# Add regular dependencies here.
+
+dependencies:
+  build:
+  source_gen:
+  analyzer: ^7.3.0
+  get_it: ^8.0.3
+  dio: ^5.3.3
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  path_provider:
+  shared_preferences:
+  uuid: ^4.2.1
+  clean_network_annotations:
+    git:
+      url: https://github.com/phalcondroid/clean_network_annotations.git
+  http: ^1.1.0
+  json_annotation: ^4.8.1
+  code_builder: ^4.10.1
+
+dev_dependencies:
+  lints: ^2.1.1
+  test: ^1.21.0
+  build_test:
+  build_runner: ^2.4.6

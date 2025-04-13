@@ -1,0 +1,3 @@
+class DataOptions {
+  const DataOptions();
+}

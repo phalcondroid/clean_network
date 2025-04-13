@@ -1,0 +1,14 @@
+targets:
+  $default:
+    builders:
+      clean_network:
+        enabled: true
+
+builders:
+  clean_network:
+    import: "package:clean_network/builder.dart"
+    builder_factories: ["restRepositoryGenerator"]
+    build_extensions: { ".dart": [".g.part"] }
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]
