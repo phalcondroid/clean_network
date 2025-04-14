@@ -113,10 +113,10 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
         /*classBuffer
             .writeln("\t } on dynamic catch (e) { throw CleanNetworkException(\"\$e\"); }");*/
         classBuffer.writeln(
-          "\t } on dynamic catch (e) { "
+          "\t } on dynamic catch (e, s) { "
           "throw CleanNetworkHttpException("
-          "message: e?.message ?? \"\","
-          "stackTrace: e?.stackTrace,"
+          "message: e ?? e?.message,"
+          "stackTrace: s,"
           "error: e?.error,"
           "response: CleanNetworkHttpExceptionResponse("
           "    data: e?.response?.data,"
@@ -462,9 +462,8 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
     String genericModelName = MedatadaExtractor.getGenericClassName(
       methodData["return"],
     );
-    if (modelName.contains("CleanNetworkSingleResponse") ||
-        modelName.contains("CleanNetworkResponse") &&
-            genericModelName.isNotEmpty) {
+    if (modelName.contains("BaseSingleResponse") ||
+        modelName.contains("BaseResponse") && genericModelName.isNotEmpty) {
       fromExtension =
           ",(Object? raw) { return $genericModelName.fromJson(raw as Map<String, Object?>);}";
     }
@@ -510,9 +509,8 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
     String genericListModelName = MedatadaExtractor.getGenericListClassName(
       methodData["return"],
     );
-    if (modelName.contains("CleanNetworkListResponse") ||
-        modelName.contains("CleanNetworkResponse") &&
-            genericListModelName.isNotEmpty) {
+    if (modelName.contains("BaseListResponse") ||
+        modelName.contains("BaseResponse") && genericListModelName.isNotEmpty) {
       CleanNetworkList = true;
     }
 
