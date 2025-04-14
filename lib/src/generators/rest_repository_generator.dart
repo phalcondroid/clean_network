@@ -115,7 +115,7 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
         classBuffer.writeln(
           "\t } on dynamic catch (e, s) { "
           "throw CleanNetworkHttpException("
-          "message: e ?? e?.message,"
+          "message: e,"
           "stackTrace: s,"
           "error: e?.error,"
           "response: CleanNetworkHttpExceptionResponse("
