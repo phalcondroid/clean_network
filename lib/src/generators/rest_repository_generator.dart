@@ -298,8 +298,8 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
       String genericModelName = MedatadaExtractor.getGenericClassName(
         methodData["return"],
       );
-      if (modelName.contains("CleanNetworkSingleResponse") ||
-          modelName.contains("CleanNetworkResponse") &&
+      if (modelName.contains("BaseSingleResponse") ||
+          modelName.contains("CleanNetworkSingleResponse") &&
               genericModelName.isNotEmpty) {
         fromExtension =
             ",(Object? raw) { return $genericModelName.fromJson(raw as Map<String, Object?>);}";
@@ -358,8 +358,8 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
     String genericModelName = MedatadaExtractor.getGenericClassName(
       methodData["return"],
     );
-    if (modelName.contains("CleanNetworkSingleResponse") ||
-        modelName.contains("CleanNetworkResponse") &&
+    if (modelName.contains("BaseSingleResponse") ||
+        modelName.contains("CleanNetworkSingleResponse") &&
             genericModelName.isNotEmpty) {
       fromExtension =
           ",(Object? raw) { return $genericModelName.fromJson(raw as Map<String, Object?>);}";
@@ -463,7 +463,8 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
       methodData["return"],
     );
     if (modelName.contains("BaseSingleResponse") ||
-        modelName.contains("BaseResponse") && genericModelName.isNotEmpty) {
+        modelName.contains("CleanNetworkSingleResponse") &&
+            genericModelName.isNotEmpty) {
       fromExtension =
           ",(Object? raw) { return $genericModelName.fromJson(raw as Map<String, Object?>);}";
     }
@@ -565,15 +566,15 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
     String listValue = asList ? "item" : "rawResponse";
     String fromExtension = "";
 
-    if (modelName.contains("CleanNetworkSingleResponse") ||
-        modelName.contains("CleanNetworkResponse") &&
+    if (modelName.contains("BaseSingleResponse") ||
+        modelName.contains("CleanNetworkSingleResponse") &&
             genericModelName.isNotEmpty) {
       fromExtension =
           ",(Object? raw) { return $genericModelName.fromJson(raw as Map<String, Object?>);}";
     }
 
-    if (modelName.contains("CleanNetworkListResponse") ||
-        modelName.contains("CleanNetworkResponse") &&
+    if (modelName.contains("BaseListResponse") ||
+        modelName.contains("CleanNetworkListResponse") &&
             genericListModelName.isNotEmpty) {
       fromExtension =
           ",(Object? raw) { return $genericListModelName.fromJson(raw as Map<String, Object?>);}";
