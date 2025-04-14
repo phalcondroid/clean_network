@@ -53,10 +53,10 @@ class MedatadaExtractor {
   }
 
   static String cleanModelName(String name) {
-    if (name.contains("CleanNetworkSingleResponse")) {
-      return "CleanNetworkSingleResponse";
+    if (name.contains("BaseSingleResponse")) {
+      return "BaseSingleResponse";
     }
-    if (name.contains("CleanNetworkListResponse")) {
+    if (name.contains("BaseListResponse")) {
       return name.replaceAll("Future<", "").replaceAll(">>", ">");
     }
     if (name.contains("CleanNetworkResponse")) {
@@ -78,6 +78,8 @@ class MedatadaExtractor {
     if (name.contains("BaseSingleResponse")) {
       methodClass = "BaseSingleResponse";
     }
+
+    print("------->>>>> jajajjajaja 2 >>>>>>> ${methodClass}");
     if (name.contains("CleanNetworkSingleResponse")) {
       methodClass = "CleanNetworkSingleResponse";
     }

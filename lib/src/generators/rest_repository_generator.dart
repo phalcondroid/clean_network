@@ -466,7 +466,7 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
         modelName.contains("CleanNetworkSingleResponse") &&
             genericModelName.isNotEmpty) {
       fromExtension =
-          ",(Object? raw) { return $genericModelName.fromJson(raw as Map<String, Object?>);}";
+          ",(Object? raw) { return $genericModelName.fromJson(raw as Map<String, Object?>);print(\"ss\");}";
     }
     String listValue = asList ? "item" : "rawResponse";
     String returnData =
