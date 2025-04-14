@@ -75,11 +75,11 @@ class MedatadaExtractor {
   static String getGenericClassName(String name) {
     String methodClass = "";
 
+    if (name.contains("BaseSingleResponse")) {
+      methodClass = "BaseSingleResponse";
+    }
     if (name.contains("CleanNetworkSingleResponse")) {
       methodClass = "CleanNetworkSingleResponse";
-    }
-    if (name.contains("CleanNetworkResponse")) {
-      methodClass = "CleanNetworkResponse";
     }
     if (methodClass.isEmpty) {
       return "";
@@ -98,11 +98,11 @@ class MedatadaExtractor {
   static String getGenericListClassName(String name) {
     String methodClass = "";
 
+    if (name.contains("BaseListResponse")) {
+      methodClass = "BaseListResponse";
+    }
     if (name.contains("CleanNetworkListResponse")) {
       methodClass = "CleanNetworkListResponse";
-    }
-    if (name.contains("CleanNetworkResponse")) {
-      methodClass = "CleanNetworkResponse";
     }
     if (methodClass.isEmpty) {
       return "";
