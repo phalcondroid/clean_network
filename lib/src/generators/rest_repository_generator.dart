@@ -403,6 +403,15 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
     String startList = asList ? "List<" : "";
     String endList = asList ? ">" : "";
     String adapterMethod = asList ? "saveAndGetList" : "saveAndGetOne";
+    bool isList = false;
+    String genericListModelName = MedatadaExtractor.getGenericListClassName(
+      methodData["return"],
+    );
+    if (modelName.contains("BaseListResponse") ||
+        modelName.contains("BaseSingleResponse") &&
+            genericListModelName.isNotEmpty) {
+      isList = true;
+    }
 
     var queryParamsMap = {};
     bool thereIsListener = false;
@@ -460,10 +469,17 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
       methodData["return"],
     );
     if (modelName.contains("BaseSingleResponse") ||
-        modelName.contains("BaseListResponse") && genericModelName.isNotEmpty) {
+        modelName.contains("BaseResponse") && genericModelName.isNotEmpty) {
       fromExtension =
           ",(Object? raw) { return $genericModelName.fromJson(raw as Map<String, Object?>);}";
     }
+
+    if (modelName.contains("BaseListResponse") ||
+        modelName.contains("BaseResponse") && genericListModelName.isNotEmpty) {
+      fromExtension =
+          ",(Object? raw) { return $genericListModelName.fromJson(raw as Map<String, Object?>);}";
+    }
+
     String listValue = asList ? "item" : "rawResponse";
     String returnData =
         "$startList$modelName.fromJson($listValue$fromExtension)$endList";
