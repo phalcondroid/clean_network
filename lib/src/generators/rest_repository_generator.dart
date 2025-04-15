@@ -1,7 +1,7 @@
-import 'package:clean_network/src/helpers/metadata_extractor.dart';
-import 'package:clean_network_annotations/clean_network_annotations.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
+import 'package:clean_network/src/helpers/metadata_extractor.dart';
+import 'package:clean_network_annotations/clean_network_annotations.dart';
 import 'package:source_gen/source_gen.dart';
 import '../visitor/model_visitor.dart';
 
@@ -80,9 +80,7 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
 
         classBuffer.writeln("\t try {");
 
-        classBuffer.writeln(
-          "\t var container = GetIt.I<CleanNetworkContainer>();",
-        );
+        classBuffer.writeln("\t var container = GetIt.I<AlvicContainer>();");
 
         bool asList = methodData["return"].toString().contains("List<");
 
@@ -299,7 +297,7 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
         methodData["return"],
       );
       if (modelName.contains("BaseSingleResponse") ||
-          modelName.contains("CleanNetworkSingleResponse") &&
+          modelName.contains("BaseListResponse") &&
               genericModelName.isNotEmpty) {
         fromExtension =
             ",(Object? raw) { return $genericModelName.fromJson(raw as Map<String, Object?>);}";
@@ -359,8 +357,7 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
       methodData["return"],
     );
     if (modelName.contains("BaseSingleResponse") ||
-        modelName.contains("CleanNetworkSingleResponse") &&
-            genericModelName.isNotEmpty) {
+        modelName.contains("BaseListResponse") && genericModelName.isNotEmpty) {
       fromExtension =
           ",(Object? raw) { return $genericModelName.fromJson(raw as Map<String, Object?>);}";
     }
@@ -463,10 +460,9 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
       methodData["return"],
     );
     if (modelName.contains("BaseSingleResponse") ||
-        modelName.contains("CleanNetworkSingleResponse") &&
-            genericModelName.isNotEmpty) {
+        modelName.contains("BaseListResponse") && genericModelName.isNotEmpty) {
       fromExtension =
-          ",(Object? raw) { return $genericModelName.fromJson(raw as Map<String, Object?>);print(\"ss\");}";
+          ",(Object? raw) { return $genericModelName.fromJson(raw as Map<String, Object?>);}";
     }
     String listValue = asList ? "item" : "rawResponse";
     String returnData =
@@ -503,7 +499,7 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
     String endList = asList ? ">" : "";
     String adapterMethod = asList ? "get" : "getOne";
     bool thereIsListener = false;
-    bool CleanNetworkList = false;
+    bool isList = false;
     String genericModelName = MedatadaExtractor.getGenericClassName(
       methodData["return"],
     );
@@ -511,8 +507,9 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
       methodData["return"],
     );
     if (modelName.contains("BaseListResponse") ||
-        modelName.contains("BaseResponse") && genericListModelName.isNotEmpty) {
-      CleanNetworkList = true;
+        modelName.contains("BaseSingleResponse") &&
+            genericListModelName.isNotEmpty) {
+      isList = true;
     }
 
     var queryParamsMap = {};
@@ -545,7 +542,7 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
       "LocalStorageAdapter localAdapter = GetIt.I<LocalStorageAdapter>();",
     );
     classBuffer.writeln(
-      "${startList}Map<String, dynamic>$endList rawResponse = ${CleanNetworkList ? "{};" : "await localAdapter.$adapterMethod('${modelName + (methodData["cache"] ?? "")}', const LocalStorageOptions());"}",
+      "${startList}Map<String, dynamic>$endList rawResponse = ${isList ? "{};" : "await localAdapter.$adapterMethod('${modelName + (methodData["cache"] ?? "")}', const LocalStorageOptions());"}",
     );
     classBuffer.writeln("if (rawResponse.isEmpty) {");
     classBuffer.writeln("rawResponse = await adapter.$adapterMethod(");
@@ -555,7 +552,7 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
     );
     classBuffer.writeln(");");
     classBuffer.writeln(
-      CleanNetworkList
+      isList
           ? ""
           : "await localAdapter.save('${modelName + (methodData["cache"] ?? "")}', ${asList ? 'rawResponse' : '[rawResponse]'},"
               " options: const LocalStorageOptions());",
@@ -567,15 +564,13 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
     String fromExtension = "";
 
     if (modelName.contains("BaseSingleResponse") ||
-        modelName.contains("CleanNetworkSingleResponse") &&
-            genericModelName.isNotEmpty) {
+        modelName.contains("BaseResponse") && genericModelName.isNotEmpty) {
       fromExtension =
           ",(Object? raw) { return $genericModelName.fromJson(raw as Map<String, Object?>);}";
     }
 
     if (modelName.contains("BaseListResponse") ||
-        modelName.contains("CleanNetworkListResponse") &&
-            genericListModelName.isNotEmpty) {
+        modelName.contains("BaseResponse") && genericListModelName.isNotEmpty) {
       fromExtension =
           ",(Object? raw) { return $genericListModelName.fromJson(raw as Map<String, Object?>);}";
     }
