@@ -80,7 +80,9 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
 
         classBuffer.writeln("\t try {");
 
-        classBuffer.writeln("\t var container = GetIt.I<AlvicContainer>();");
+        classBuffer.writeln(
+          "\t var container = GetIt.I<CleanNetworkContainer>();",
+        );
 
         bool asList = methodData["return"].toString().contains("List<");
 
