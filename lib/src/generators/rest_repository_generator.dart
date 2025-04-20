@@ -90,6 +90,7 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
           printForGetMethod(classBuffer, asList, methodData);
         }
 
+        print("===>>>> method type ${methodData["type"]}");
         if (methodData["type"] == "post") {
           printForPostMethod(classBuffer, asList, methodData);
         }
