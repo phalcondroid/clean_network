@@ -74,12 +74,9 @@ class MedatadaExtractor {
 
   static String getGenericClassName(String name) {
     String methodClass = "";
-    print("------->>>>> jajajjajaja >>>>>>> ${name}");
     if (name.contains("BaseSingleResponse")) {
       methodClass = "BaseSingleResponse";
     }
-
-    print("------->>>>> jajajjajaja 2 >>>>>>> ${methodClass}");
     if (name.contains("CleanNetworkSingleResponse")) {
       methodClass = "CleanNetworkSingleResponse";
     }

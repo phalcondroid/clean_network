@@ -395,6 +395,7 @@ class RestRepositoryGenerator extends GeneratorForAnnotation<RestRepository> {
     bool asList,
     Map<String, dynamic> methodData,
   ) {
+    print("====>>> estarting post");
     classBuffer.writeln(
       "\t var adapter = HttpAdapter(http: container.getContent('__connection__$connection'));",
     );
